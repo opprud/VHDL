@@ -53,6 +53,8 @@ architecture arch of max7301_simple is
     -- shift register for assembling incoming spi data 
     signal si_next      :       std_logic_vector(27 downto 0);
     signal si_reg       :       std_logic_vector(27 downto 0);
+    signal txd_next     :       std_logic_vector(27 downto 0);
+    signal txd_reg      :       std_logic_vector(27 downto 0);
     
 begin
 
@@ -84,27 +86,25 @@ begin
         end if;
     end process;
     
-    
-    -- next-state logic
+        -- next-state logic
     process(state_reg, en_i, i)
     begin
         -- default assignments
         state_next <= state_reg;
         si_next <= si_reg;
-		  irq_o <= '0';
-		  
+        txd_next <= txd_reg;
         case state_reg is        
             when RESET =>
                if(en_i = '1') then
                     state_next <= DO_SETUP;
-                end if;
+               end if;
             --when INIT =>
                 
             when DO_SETUP =>
                 -- fisished doing setup ?
                 if(spi_ack = '1') then
                     if(i = 8) then
-                        state_next <= IDLE;
+                        state_next = IDLE;
                     end if;
                 end if;
             
@@ -121,6 +121,10 @@ begin
                     state_next <= DO_WRITE;
                 end if;
     
+            when DONE =>
+                irq_o <= '1';
+					 state_next <= IDLE;
+
             when DO_WRITE =>
                 if(spi_ack = '1') then
                     -- read and concatenate incoming data, also shift left << 8
@@ -128,19 +132,14 @@ begin
                     si_next <= si_reg(20 downto 0) & rxdata(7 downto 0);
                     -- fisnished writing and reading 4 registers (=8 spi_ack's) ?
                     if(i = 8) then
-                        state_next <= DONE;
+                        state_next <= IDLE;
                     end if;
                 end if;
-					 
-            when DONE =>
-                irq_o <= '1';
-					 state_next <= IDLE;
-                
-					 
             when others =>        
         end case;
     end process;    
     
+
     --output logic
     -- reset counter before init or read/write
     cnt_rst <= '1' when ( (state_reg = RESET) or (state_reg = IDLE) )  else '1';
