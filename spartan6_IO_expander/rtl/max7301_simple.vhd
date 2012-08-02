@@ -5,9 +5,8 @@
 --! @brief      Controller for acessing MAX 7301 via SPI. Input / output directions \n 
 --!             are to be instantiaed, default are outputs. Comfguration is two bits per port
 --!             controller runs continiously   
---             
+--!             
 --------------------------------------------------------------------------------
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
