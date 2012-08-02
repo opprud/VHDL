@@ -10,6 +10,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
+use ieee.numeric_std.all
 
 entity max7301_simple is
    generic ( 
@@ -23,7 +24,7 @@ entity max7301_simple is
         irq_o       :   out std_logic;       -- IRQ, TODO: what triggers, change on inputs ?
         input_o     :   out std_logic_vector(27 downto 0);  --data read from input pins on MAX7301
         -- MAX7301 SPI interface
-        sclk        :   in std_logic;        -- SPI clock
+        sclk        :   out std_logic;        -- SPI clock
         din         :   in std_logic;        -- SPI data input
         dout        :   out std_logic;       -- SPI read data
         cs          :   out std_logic        -- SPI chip select
@@ -39,7 +40,7 @@ architecture arch of max7301_simple is
     TYPE MAX7301_Port_Addr_t IS ARRAY (1 to 8) OF INTEGER;
     CONSTANT MAX7301_RW_Addr : MAX7301_Port_Addr_t := (16#5C#,16#00#,16#54#,16#00#,16#4C#,16#00#,16#44#,16#00#); -- NOTE read and write are combined, eg 1:write read register addres, 2: write output data and read input from "1"
     -- CONTROLLER states
-    Type   maxStateType is (INIT, DO_SETUP, IDLE, DO_READ, DONE, DO_WRITE);
+    Type   maxStateType is (RESET, INIT, DO_SETUP, IDLE, DO_READ, DONE, DO_WRITE);
     signal state_next, state_reg: maxStateType;
     -- MISC signals
     signal spi_ack      :       std_logic;
@@ -132,7 +133,7 @@ begin
                     si_next <= si_reg(20 downto 0) & rxdata(7 downto 0);
                     -- fisnished writing and reading 4 registers (=8 spi_ack's) ?
                     if(i = 8) then
-                        state_next <= IDLE;
+                        state_next <= DONE;
                     end if;
                 end if;
             when others =>        
