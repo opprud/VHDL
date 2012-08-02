@@ -10,11 +10,12 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
-use ieee.numeric_std.all
+use ieee.numeric_std.all;
 
-entity max7301_simple is
 --   generic ( 
 --        IO_cfg : array  OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
+
+entity max7301_simple is
      port  (
         -- Application interface :
         clk_i       :   in std_logic;        -- input clock, xx MHz.
@@ -45,7 +46,7 @@ architecture arch of max7301_simple is
     -- MISC signals
     signal spi_ack      :       std_logic;
     signal cnt_en       :       std_logic;
-    signal cnt_reset    :       std_logic;
+    signal cnt_rst    :       std_logic;
     signal cnt          :       std_logic_vector(3 downto 0);
     signal n            :       integer range 0 to 7; 
     signal txdata       :       std_logic_vector(15 downto 0);
@@ -105,7 +106,7 @@ begin
                 -- fisished doing setup ?
                 if(spi_ack = '1') then
                     if(i = 8) then
-                        state_next = IDLE;
+                        state_next <= IDLE;
                     end if;
                 end if;
             
