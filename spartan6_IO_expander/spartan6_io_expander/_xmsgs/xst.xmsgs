@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="warning" file="HDLCompiler" num="946" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/spi_16.vhd" Line 54: Actual for formal port <arg fmt="%s" index="1">ctrl</arg> is neither a static name nor a globally static expression
+</msg>
+
+<msg type="error" file="HDLCompiler" num="806" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 16: Syntax error near &quot;<arg fmt="%s" index="1">array</arg>&quot;.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="332" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 23: Constant <arg fmt="%s" index="1">irq_o</arg> can only be of mode IN
+</msg>
+
+<msg type="error" file="HDLCompiler" num="332" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 24: Constant <arg fmt="%s" index="1">input_o</arg> can only be of mode IN
+</msg>
+
+<msg type="error" file="HDLCompiler" num="332" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 28: Constant <arg fmt="%s" index="1">dout</arg> can only be of mode IN
+</msg>
+
+<msg type="error" file="HDLCompiler" num="332" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 29: Constant <arg fmt="%s" index="1">cs</arg> can only be of mode IN
+</msg>
+
+<msg type="error" file="HDLCompiler" num="854" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 14: Unit &lt;<arg fmt="%s" index="1">max7301_simple</arg>&gt; ignored due to previous errors.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="374" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 33: Entity &lt;<arg fmt="%s" index="1">max7301_simple</arg>&gt; is not yet compiled.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="24" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 36: <arg fmt="%s" index="1">&quot;**&quot;</arg> expects <arg fmt="%d" index="2">2</arg> arguments
+</msg>
+
+<msg type="error" file="HDLCompiler" num="845" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 37: Type of aggregate cannot be determined without context ; <arg fmt="%d" index="1">0</arg> visible types match here
+</msg>
+
+<msg type="error" file="HDLCompiler" num="845" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 40: Type of aggregate cannot be determined without context ; <arg fmt="%d" index="1">0</arg> visible types match here
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 45: &lt;<arg fmt="%s" index="1">std_logic</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 46: &lt;<arg fmt="%s" index="1">std_logic</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 47: &lt;<arg fmt="%s" index="1">std_logic</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 48: &lt;<arg fmt="%s" index="1">std_logic_vector</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 49: &lt;<arg fmt="%s" index="1">integer</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 50: &lt;<arg fmt="%s" index="1">std_logic_vector</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 51: &lt;<arg fmt="%s" index="1">std_logic_vector</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 52: &lt;<arg fmt="%s" index="1">integer</arg>&gt; is not declared.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="69" delta="old" >"/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/rtl/max7301_simple.vhd" Line 54: &lt;<arg fmt="%s" index="1">std_logic_vector</arg>&gt; is not declared.
+</msg>
+
+</messages>
+

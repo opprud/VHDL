@@ -1,0 +1,4 @@
+vhdl work "../rtl/shift_reg.vhd"
+vhdl work "../rtl/bin_cnt.vhd"
+vhdl work "../rtl/spi_16.vhd"
+vhdl work "../rtl/max7301_simple.vhd"

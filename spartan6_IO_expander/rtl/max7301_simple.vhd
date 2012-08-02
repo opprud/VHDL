@@ -13,7 +13,7 @@ use ieee.std_logic_unsigned.all;
 
 entity max7301_simple is
    generic ( 
-        IO_cfg : array (1 to 7) OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
+        IO_cfg : array  OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
      port  (
         -- Application interface :
         clk_i       :   in std_logic;        -- input clock, xx MHz.
@@ -39,7 +39,7 @@ architecture arch of max7301_simple is
     TYPE MAX7301_Port_Addr_t IS ARRAY (1 to 8) OF INTEGER;
     CONSTANT MAX7301_RW_Addr : MAX7301_Port_Addr_t := (16#5C#,16#00#,16#54#,16#00#,16#4C#,16#00#,16#44#,16#00#); -- NOTE read and write are combined, eg 1:write read register addres, 2: write output data and read input from "1"
     -- CONTROLLER states
-    Type   maxStateType is (INIT, DO_SETUP, IDLE, DO_READ, LATCH, DO_WRITE);
+    Type   maxStateType is (INIT, DO_SETUP, IDLE, DO_READ, DONE, DO_WRITE);
     signal state_next, state_reg: maxStateType;
     -- MISC signals
     signal spi_ack      :       std_logic;
@@ -62,11 +62,13 @@ begin
         port map(clk=>clk_i, reset=>cnt_rst, en=>cnt_en, q=>cnt, max_tick=>open);
 
     spi: entity work.spi_16(arch)
-        port map(clk_i => clk_i, rst_i => rst_i, en_i => en_i, ack_o => spi_ack, data_i => txdata, data_o => rxdata, sck_o => sclk , sdo_o => dout , sdi_i => din , cs_o => cs )
+        port map(clk_i => clk_i, rst_i => rst_i, en_i => en_i, ack_o => spi_ack, data_i => txdata, data_o => rxdata, sck_o => sclk , sdo_o => dout , sdi_i => din , cs_o => cs );
 
     -- connect i and use to hold ack's and index SPI data arrays
     i <= to_integer(unsigned(cnt(3 downto 0)));
 
+    -- shiftregister is hardwired to output port
+	 input_o <= si_reg;
 
     -- register
     process(clk_i,rst_i)
@@ -89,6 +91,8 @@ begin
         -- default assignments
         state_next <= state_reg;
         si_next <= si_reg;
+		  irq_o <= '0';
+		  
         case state_reg is        
             when RESET =>
                if(en_i = '1') then
@@ -100,7 +104,7 @@ begin
                 -- fisished doing setup ?
                 if(spi_ack = '1') then
                     if(i = 8) then
-                        state_next = IDLE;
+                        state_next <= IDLE;
                     end if;
                 end if;
             
@@ -117,8 +121,6 @@ begin
                     state_next <= DO_WRITE;
                 end if;
     
-            --when LATCH =>
-                --if(n = 15) then
             when DO_WRITE =>
                 if(spi_ack = '1') then
                     -- read and concatenate incoming data, also shift left << 8
@@ -126,9 +128,15 @@ begin
                     si_next <= si_reg(20 downto 0) & rxdata(7 downto 0);
                     -- fisnished writing and reading 4 registers (=8 spi_ack's) ?
                     if(i = 8) then
-                        state_next <= IDLE;
+                        state_next <= DONE;
                     end if;
                 end if;
+					 
+            when DONE =>
+                irq_o <= '1';
+					 state_next <= IDLE;
+                
+					 
             when others =>        
         end case;
     end process;    

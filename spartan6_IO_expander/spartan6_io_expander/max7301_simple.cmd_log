@@ -1,0 +1,2 @@
+xst -intstyle ise -ifn "/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/spartan6_io_expander/max7301_simple.xst" -ofn "/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/spartan6_io_expander/max7301_simple.syr" 
+xst -intstyle ise -ifn "/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/spartan6_io_expander/max7301_simple.xst" -ofn "/home/opprud/Workspace/VHDL/VHDL/spartan6_IO_expander/spartan6_io_expander/max7301_simple.syr" 
