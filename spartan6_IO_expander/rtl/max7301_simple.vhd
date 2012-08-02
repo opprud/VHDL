@@ -3,7 +3,7 @@
 --! @ingroup    RTL
 --!
 --! @brief      Controller for acessing MAX 7301 via SPI. Input / output directions \n 
---!             are to be instantiaed, default are outputs.
+--!             are to be instantiaed, default are outputs. Comfguration is two bits per port
 --!             controller runs continiously   
 --             
 --------------------------------------------------------------------------------
