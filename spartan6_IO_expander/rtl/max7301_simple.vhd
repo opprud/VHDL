@@ -12,7 +12,9 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 entity max7301_simple is
-    port  (
+   generic ( 
+        IO_cfg : array (1 to 7) OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
+     port  (
         -- Application interface :
         clk_i       :   in std_logic;        -- input clock, xx MHz.
         rst_i       :   in std_logic;        -- sync reset.
@@ -32,10 +34,10 @@ architecture arch of max7301_simple is
 
     -- PORT configuration data
     TYPE MAX7301_Init_t IS ARRAY (1 to 7) OF INTEGER;
-    CONSTANT MAX7301_Init : MAX7301_Init_t := (X"0911",X"0A22",X"0B33",X"0C44",X"0D55",X"0E66",X"OF77");
+    CONSTANT MAX7301_Init : MAX7301_Init_t := (16#0955#,16#0A55#,16#0B55#,16#0C55#,16#0D55#,16#0E655#,16#0F755#);
     -- PORT address definitions    
     TYPE MAX7301_Port_Addr_t IS ARRAY (1 to 8) OF INTEGER;
-    CONSTANT MAX7301_RW_Addr : MAX7301_Port_Addr_t := (X"5C",X"00",X"54",X"00",X"4C",X"00",X"44"X"00"); -- NOTE read and write are combined, eg 1:write read register addres, 2: write output data and read input from "1"
+    CONSTANT MAX7301_RW_Addr : MAX7301_Port_Addr_t := (16#5C#,16#00#,16#54#,16#00#,16#4C#,16#00#,16#44#,16#00#); -- NOTE read and write are combined, eg 1:write read register addres, 2: write output data and read input from "1"
     -- CONTROLLER states
     Type   maxStateType is (INIT, DO_SETUP, IDLE, DO_READ, LATCH, DO_WRITE);
     signal state_next, state_reg: maxStateType;
@@ -137,7 +139,7 @@ begin
     -- count spi_ack's in "cnt"
     cnt_en <= spi_ack;
     -- select dataset from init or RW array, based on state
-    txdata <= MAX7301_Init(i) when (state_reg = DO_SETUP) else MAX7301_RW_Addr(i);
+    txdata <= ( MAX7301_Init(i) & IO_cfg(i))  when (state_reg = DO_SETUP) else MAX7301_RW_Addr(i);
 
 end arch;
 
