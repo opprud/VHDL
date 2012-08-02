@@ -3,7 +3,7 @@
 --! @ingroup    RTL
 --!
 --! @brief      Controller for acessing MAX 7301 via SPI. Input / output directions \n 
---!             are hardcoded in the init array MAX7301_Init
+--!             are to be instantiaed, default are outputs.
 --!             controller runs continiously   
 --             
 --------------------------------------------------------------------------------
