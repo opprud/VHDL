@@ -12,8 +12,8 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 entity max7301_simple is
-   generic ( 
-        IO_cfg : array  OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
+--   generic ( 
+--        IO_cfg : array  OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
      port  (
         -- Application interface :
         clk_i       :   in std_logic;        -- input clock, xx MHz.
@@ -34,7 +34,7 @@ architecture arch of max7301_simple is
 
     -- PORT configuration data
     TYPE MAX7301_Init_t IS ARRAY (1 to 7) OF INTEGER;
-    CONSTANT MAX7301_Init : MAX7301_Init_t := (16#0955#,16#0A55#,16#0B55#,16#0C55#,16#0D55#,16#0E655#,16#0F755#);
+    CONSTANT MAX7301_Init : MAX7301_Init_t := (16#0955#,16#0A55#,16#0B55#,16#0C55#,16#0D55#,16#0E65#,16#0755#);
     -- PORT address definitions    
     TYPE MAX7301_Port_Addr_t IS ARRAY (1 to 8) OF INTEGER;
     CONSTANT MAX7301_RW_Addr : MAX7301_Port_Addr_t := (16#5C#,16#00#,16#54#,16#00#,16#4C#,16#00#,16#44#,16#00#); -- NOTE read and write are combined, eg 1:write read register addres, 2: write output data and read input from "1"
