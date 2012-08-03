@@ -55,6 +55,8 @@ architecture arch of max7301_simple is
     -- shift register for assembling incoming spi data 
     signal si_next      :       std_logic_vector(27 downto 0);
     signal si_reg       :       std_logic_vector(27 downto 0);
+    signal so_next      :       std_logic_vector(27 downto 0);
+    signal so_reg       :       std_logic_vector(27 downto 0);
     signal txd_next     :       std_logic_vector(27 downto 0);
     signal txd_reg      :       std_logic_vector(27 downto 0);
     
@@ -66,13 +68,14 @@ begin
         port map(clk=>clk_i, reset=>cnt_rst, en=>cnt_en, q=>cnt, max_tick=>open);
 
     spi: entity work.spi_16(arch)
-        port map(clk_i => clk_i, rst_i => rst_i, en_i => en_i, ack_o => spi_ack, data_i => txdata, data_o => rxdata, sck_o => sclk , sdo_o => dout , sdi_i => din , cs_o => cs );
+        port map(clk_i => clk_i, rst_i => rst_i, en_i => en_i, ack_o => spi_ack, data_i => txdata, 
+                 data_o => rxdata, sck_o => sclk , sdo_o => dout , sdi_i => din , cs_o => cs );
 
     -- connect i and use to hold ack's and index SPI data arrays
     i <= to_integer(unsigned(cnt(3 downto 0)));
 
     -- shiftregister is hardwired to output port
-	 input_o <= si_reg;
+    input_o <= si_reg;
 
     -- register
     process(clk_i,rst_i)
@@ -81,9 +84,11 @@ begin
             if (rst_i='1') then
                 state_reg <= IDLE;
                 si_reg <= (others => '0');
+                so_reg <= (others => '0');
             else           
                 state_reg <= state_next;
                 si_reg <= si_next;
+                so_reg <= so_next;
             end if;
         end if;
     end process;
@@ -95,6 +100,8 @@ begin
         state_next <= state_reg;
         si_next <= si_reg;
         txd_next <= txd_reg;
+        irq_o <= '0';
+        
         case state_reg is        
             when RESET =>
                if(en_i = '1') then
@@ -125,13 +132,17 @@ begin
     
             when DONE =>
                 irq_o <= '1';
-					 state_next <= IDLE;
+			    state_next <= IDLE;
 
             when DO_WRITE =>
                 if(spi_ack = '1') then
                     -- read and concatenate incoming data, also shift left << 8
                     -- lower 8 LSB's of rxdata are to be used
                     si_next <= si_reg(20 downto 0) & rxdata(7 downto 0);
+                    
+                    -- serial output register, shift 8 right every spi frame
+                    so_next <= "00000000" & so_reg(27 downto 7);
+                    
                     -- fisnished writing and reading 4 registers (=8 spi_ack's) ?
                     if(i = 8) then
                         state_next <= DONE;
@@ -148,7 +159,7 @@ begin
     -- count spi_ack's in "cnt"
     cnt_en <= spi_ack;
     -- select dataset from init or RW array, based on state
-    txdata <= ( MAX7301_Init(i) & IO_cfg(i))  when (state_reg = DO_SETUP) else MAX7301_RW_Addr(i);
+    txdata <= (IO_cfg(i) & MAX7301_Init(i))  when (state_reg = DO_SETUP) else (so_reg(7 downto 0) & MAX7301_RW_Addr(i));
 
 end arch;
 
