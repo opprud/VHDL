@@ -12,10 +12,10 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
---   generic ( 
---        IO_cfg : array  OF integer := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
 
 entity max7301_simple is
+   generic ( 
+        IO_cfg : array (1 to 7) OF integer range 0 to 16#FFFF#;-- := (16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#, 16#55#);
      port  (
         -- Application interface :
         clk_i       :   in std_logic;        -- input clock, xx MHz.
